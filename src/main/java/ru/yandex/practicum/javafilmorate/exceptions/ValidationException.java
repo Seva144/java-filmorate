@@ -1,7 +1,7 @@
 package ru.yandex.practicum.javafilmorate.exceptions;
 
-public class InvalidDescriptionException extends Exception {
-    public InvalidDescriptionException (String message){
+public class ValidationException extends Exception {
+    public ValidationException(String message){
         super(message);
     }
 }
