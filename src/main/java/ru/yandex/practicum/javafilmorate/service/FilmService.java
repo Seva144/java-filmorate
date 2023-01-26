@@ -1,7 +1,6 @@
 package ru.yandex.practicum.javafilmorate.service;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.javafilmorate.exceptions.NotFoundException;
@@ -15,14 +14,11 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class FilmService {
-
-    private final static Logger log = LoggerFactory.getLogger(FilmService.class);
 
     private final FilmStorage filmStorage;
 
-
-    @Autowired
     public FilmService(){
         this.filmStorage = FilmorateUtil.getDefaultFilmStorage();
     }

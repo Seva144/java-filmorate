@@ -1,5 +1,6 @@
 package ru.yandex.practicum.javafilmorate.storage;
 
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -13,10 +14,10 @@ import java.util.HashMap;
 import java.util.List;
 
 @Component
+@Slf4j
 public class InMemoryFilmStorage implements FilmStorage {
 
-    private final static HashMap<Integer, Film> films = new HashMap<>();
-    private final static Logger log = LoggerFactory.getLogger(FilmStorage.class);
+    private final HashMap<Integer, Film> films = new HashMap<>();
     private static int id;
 
     public int generateId() {

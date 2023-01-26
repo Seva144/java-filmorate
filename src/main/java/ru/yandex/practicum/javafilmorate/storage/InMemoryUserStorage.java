@@ -1,12 +1,8 @@
 package ru.yandex.practicum.javafilmorate.storage;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Qualifier;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import ru.yandex.practicum.javafilmorate.controllers.UserController;
 import ru.yandex.practicum.javafilmorate.exceptions.NotFoundException;
-import ru.yandex.practicum.javafilmorate.exceptions.ValidationException;
 import ru.yandex.practicum.javafilmorate.model.User;
 
 import java.util.ArrayList;
@@ -15,9 +11,9 @@ import java.util.List;
 
 
 @Component
+@Slf4j
 public class InMemoryUserStorage implements UserStorage {
 
-    private final static Logger log = LoggerFactory.getLogger(UserController.class);
     private final static HashMap<Integer, User> users = new HashMap<>();
     private static int id;
 
