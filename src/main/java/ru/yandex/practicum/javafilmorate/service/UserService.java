@@ -1,15 +1,11 @@
 package ru.yandex.practicum.javafilmorate.service;
 
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.javafilmorate.exceptions.NotFoundException;
 import ru.yandex.practicum.javafilmorate.exceptions.ValidationException;
 import ru.yandex.practicum.javafilmorate.model.User;
 import ru.yandex.practicum.javafilmorate.storage.UserStorage;
-import ru.yandex.practicum.javafilmorate.util.FilmorateUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,8 +19,8 @@ public class UserService {
 
     private final UserStorage userStorage;
 
-    public UserService(){
-        this.userStorage= FilmorateUtil.getDefaultUserStorage();
+    public UserService(UserStorage userStorage){
+        this.userStorage= userStorage;
     }
 
     public List<User> getAllUsers(){
