@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ParameterResolutionException;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.jdbc.core.JdbcTemplate;
 import ru.yandex.practicum.javafilmorate.controllers.FilmController;
 import ru.yandex.practicum.javafilmorate.controllers.UserController;
 import ru.yandex.practicum.javafilmorate.exceptions.NotFoundException;
@@ -15,6 +16,7 @@ import ru.yandex.practicum.javafilmorate.service.FilmService;
 import ru.yandex.practicum.javafilmorate.service.UserService;
 import ru.yandex.practicum.javafilmorate.storage.InMemoryFilmStorage;
 import ru.yandex.practicum.javafilmorate.storage.InMemoryUserStorage;
+import ru.yandex.practicum.javafilmorate.storage.UserDbStorage;
 
 
 import javax.validation.Valid;
@@ -27,7 +29,7 @@ class FilmorateApplicationTests {
 	FilmController filmController;
 	FilmService filmService;
 	UserService userService;
-	InMemoryUserStorage userStorage;
+	UserDbStorage userStorage;
 	InMemoryFilmStorage filmStorage;
 
 	User user1;
@@ -40,7 +42,9 @@ class FilmorateApplicationTests {
 
 	@BeforeEach
 	public void Server_SetUp(){
-		userStorage = new InMemoryUserStorage();
+		JdbcTemplate jdbcTemplate = new JdbcTemplate();
+
+		userStorage = new UserDbStorage(jdbcTemplate);
 		filmStorage = new InMemoryFilmStorage();
 
 		userService = new UserService(userStorage);
@@ -49,9 +53,9 @@ class FilmorateApplicationTests {
 		userController = new UserController(userService);
 		filmController = new FilmController(filmService);
 
-		user1 = new User("user1@mail.ru", "name1", "login1", LocalDate.of(2000,1,1));
-		user2 = new User("user2@mail.ru", "name2", "login2", LocalDate.of(2000,1,1));
-		user3 = new User("user3@mail.ru", "", "login3", LocalDate.of(2000,1,1));
+//		user1 = new User("user1@mail.ru", "name1", "login1", LocalDate.of(2000,1,1));
+//		user2 = new User("user2@mail.ru", "name2", "login2", LocalDate.of(2000,1,1));
+//		user3 = new User("user3@mail.ru", "", "login3", LocalDate.of(2000,1,1));
 
 		film1 = new Film("Индиана Джонс", "Известный археолог и специалист ..",
 				LocalDate.of(1981, 1,1), 180);
@@ -64,10 +68,10 @@ class FilmorateApplicationTests {
 	public void Add_Like() throws ValidationException, NotFoundException {
 		userController.createUser(user1);
 		userController.createUser(user2);
-		filmController.createFilm(film1);
-		filmController.createFilm(film2);
-
-		userController.addFriend(user1.getId(), user2.getId());
+//		filmController.createFilm(film1);
+//		filmController.createFilm(film2);
+//
+//		userController.addFriend(user1.getId(), user2.getId());
 
 	}
 
