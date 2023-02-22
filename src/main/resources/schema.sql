@@ -81,6 +81,10 @@ create table if not exists LIKES
         foreign key (USER_ID) references USERS
 );
 
+delete from TYPE_GENRES;
+delete from TYPE_MPA;
+
+
 delete from GENRES;
 alter table GENRES alter column
     GENRE_ID restart with 1;
@@ -96,4 +100,5 @@ alter table USERS alter column
 delete from FILMS;
 alter table FILMS alter column
     FILM_ID restart with 1;
+
 

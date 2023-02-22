@@ -10,3 +10,4 @@ insert into TYPE_MPA values (2, 'PG');
 insert into TYPE_MPA values (3, 'PG-13');
 insert into TYPE_MPA values (4, 'R');
 insert into TYPE_MPA values (5, 'NC-17');
+
