@@ -1,12 +1,13 @@
-package ru.yandex.practicum.javafilmorate.storage;
+package ru.yandex.practicum.javafilmorate.dao;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Component;
-import ru.yandex.practicum.javafilmorate.dao.UserMapper;
+import ru.yandex.practicum.javafilmorate.mapper.UserMapper;
 import ru.yandex.practicum.javafilmorate.model.User;
+import ru.yandex.practicum.javafilmorate.storage.UserStorage;
 
 import java.sql.PreparedStatement;
 import java.util.List;

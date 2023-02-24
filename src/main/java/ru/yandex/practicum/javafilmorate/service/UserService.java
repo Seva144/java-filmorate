@@ -9,6 +9,7 @@ import ru.yandex.practicum.javafilmorate.model.User;
 import ru.yandex.practicum.javafilmorate.storage.UserStorage;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -31,19 +32,11 @@ public class UserService {
     }
 
     public User updateUser(User user) throws NotFoundException {
-        if (getUser(user.getId()) != null) {
-            return userStorage.updateUser(user);
-        } else {
-            throw new NotFoundException();
-        }
+        return Optional.ofNullable(userStorage.updateUser(user)).orElseThrow(NotFoundException::new);
     }
 
     public User getUser(int id) throws NotFoundException {
-        if (userStorage.getUser(id) != null) {
-            return userStorage.getUser(id);
-        } else {
-            throw new NotFoundException();
-        }
+        return Optional.ofNullable(userStorage.getUser(id)).orElseThrow(NotFoundException::new);
     }
 
     public void addFriend(int id, int idFriend) throws NotFoundException {

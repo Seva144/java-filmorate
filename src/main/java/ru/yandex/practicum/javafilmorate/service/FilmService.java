@@ -22,31 +22,18 @@ public class FilmService {
     private final FilmStorage filmStorage;
     private final UserStorage userStorage;
 
-
     public FilmService(@Qualifier(value = "filmDbStorage") FilmStorage filmStorage,
                        @Qualifier(value = "userDbStorage") UserStorage userStorage) {
         this.filmStorage = filmStorage;
         this.userStorage = userStorage;
     }
 
-
     public List<Film> getAllFilms() {
-        List<Film> films = filmStorage.getAllFilms();
-        films.forEach(film -> film.setMpa(filmStorage.getMpa(film.getMpa().getId())));
-        films.forEach(film -> film.setGenres(filmStorage.getGenres(film.getId())));
-        return films;
+        return filmStorage.getAllFilms();
     }
 
     public Film getFilm(int idFilm) throws NotFoundException {
-        if (filmStorage.getFilm(idFilm) != null) {
-            Film film = filmStorage.getFilm(idFilm);
-            int idMPA = film.getMpa().getId();
-            film.setMpa(filmStorage.getMpa(idMPA));
-            film.setGenres(filmStorage.getGenres(idFilm));
-            return film;
-        } else {
-            throw new NotFoundException();
-        }
+        return Optional.ofNullable(filmStorage.getFilm(idFilm)).orElseThrow(NotFoundException::new);
     }
 
     public Film createFilm(Film film) throws ValidationException, NotFoundException {
@@ -90,20 +77,15 @@ public class FilmService {
     }
 
     public List<Film> getTopFilms(int count) {
+
         List<Film> films = filmStorage.getTopFilms(count).stream().limit(count)
                 .collect(Collectors.toList());
-        films.forEach(film -> film.setMpa(filmStorage.getMpa(film.getMpa().getId())));
-        films.forEach(film -> film.setGenres(filmStorage.getGenres(film.getId())));
         log.info("Показаны топ-фильмы");
         return films;
     }
 
     public MPA getMpa(int id) throws NotFoundException {
-        if(filmStorage.getMpa(id)!=null){
-            return filmStorage.getMpa(id);
-        } else {
-            throw new NotFoundException();
-        }
+        return Optional.ofNullable(filmStorage.getMpa(id)).orElseThrow(NotFoundException::new);
     }
 
     public List<MPA> getAllMpa() {
@@ -111,11 +93,7 @@ public class FilmService {
     }
 
     public Genre getGenre(int idFilm) throws NotFoundException {
-        if(filmStorage.getGenre(idFilm)!=null){
-            return filmStorage.getGenre(idFilm);
-        } else {
-            throw new NotFoundException();
-        }
+        return Optional.ofNullable(filmStorage.getGenre(idFilm)).orElseThrow(NotFoundException::new);
     }
 
     public List<Genre> getAllGenres() {
@@ -131,3 +109,5 @@ public class FilmService {
     }
 
 }
+
+

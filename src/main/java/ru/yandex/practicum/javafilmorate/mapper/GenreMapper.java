@@ -1,4 +1,4 @@
-package ru.yandex.practicum.javafilmorate.dao;
+package ru.yandex.practicum.javafilmorate.mapper;
 
 import org.springframework.jdbc.core.RowMapper;
 import ru.yandex.practicum.javafilmorate.model.Genre;
@@ -12,9 +12,6 @@ public class GenreMapper implements RowMapper<Genre> {
     public Genre mapRow(ResultSet resultSet, int i) throws SQLException{
         int id = resultSet.getInt("ID");
         String name = resultSet.getString("NAME");
-        Genre genre = new Genre();
-        genre.setId(id);
-        genre.setName(name);
-        return genre;
+        return new Genre(id, name);
     }
 }

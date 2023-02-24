@@ -1,4 +1,4 @@
-package ru.yandex.practicum.javafilmorate.dao;
+package ru.yandex.practicum.javafilmorate.mapper;
 
 import org.springframework.jdbc.core.RowMapper;
 import ru.yandex.practicum.javafilmorate.model.MPA;

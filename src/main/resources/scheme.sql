@@ -1,3 +1,4 @@
+
 create table if not exists TYPE_GENRES
 (
     ID   INTEGER not null,
@@ -9,7 +10,7 @@ create table if not exists TYPE_GENRES
 create table if not exists TYPE_MPA
 (
     ID   INTEGER not null,
-    NAME CHARACTER VARYING(50),
+    NAME CHARACTER VARYING(50) default NULL,
     constraint TYPE_MPA_PK
         primary key (ID)
 );
@@ -75,30 +76,24 @@ create table if not exists LIKES
     USER_ID  INTEGER default 0,
     constraint LIKES_PK
         primary key (LIKES_ID),
+    constraint LIKES_CONSTRAINT
+        unique (FILM_ID, USER_ID),
     constraint FILM___FK
         foreign key (FILM_ID) references FILMS,
     constraint USER___FK
         foreign key (USER_ID) references USERS
 );
 
-delete from TYPE_GENRES;
-delete from TYPE_MPA;
 
 
-delete from GENRES;
-alter table GENRES alter column
-    GENRE_ID restart with 1;
-delete from FRIENDSHIP;
-alter table FRIENDSHIP alter column
-    FRIENDSHIP_ID restart with 1;
-delete from LIKES;
-alter table LIKES alter column
-    LIKES_ID restart with 1;
-delete from USERS;
-alter table USERS alter column
-    USER_ID restart with 1;
-delete from FILMS;
-alter table FILMS alter column
-    FILM_ID restart with 1;
+
+
+
+
+
+
+
+
+
 
 

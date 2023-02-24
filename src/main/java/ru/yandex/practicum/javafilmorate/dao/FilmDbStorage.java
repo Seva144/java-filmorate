@@ -1,16 +1,17 @@
-package ru.yandex.practicum.javafilmorate.storage;
+package ru.yandex.practicum.javafilmorate.dao;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Component;
-import ru.yandex.practicum.javafilmorate.dao.FilmMapper;
-import ru.yandex.practicum.javafilmorate.dao.GenreMapper;
-import ru.yandex.practicum.javafilmorate.dao.MPAMapper;
+import ru.yandex.practicum.javafilmorate.mapper.FilmMapper;
+import ru.yandex.practicum.javafilmorate.mapper.GenreMapper;
+import ru.yandex.practicum.javafilmorate.mapper.MPAMapper;
 import ru.yandex.practicum.javafilmorate.model.Film;
 import ru.yandex.practicum.javafilmorate.model.Genre;
 import ru.yandex.practicum.javafilmorate.model.MPA;
+import ru.yandex.practicum.javafilmorate.storage.FilmStorage;
 
 import java.sql.PreparedStatement;
 import java.util.List;
@@ -28,12 +29,39 @@ public class FilmDbStorage implements FilmStorage {
     }
 
     public List<Film> getAllFilms() {
-        String sql = "select * from FILMS";
+        String sql = "select FILMS.FILM_ID as FILM_ID, " +
+                "FILMS.FILM_NAME as FILM_NAME, " +
+                "FILMS.DESCRIPTION as DESCRIPTION, " +
+                "FILMS.RELEASE_DATE as RELEASE_DATE, " +
+                "FILMS.DURATION as DURATION, " +
+                "FILMS.MPA_ID as MPA_ID, " +
+                "TYPE_MPA.NAME as TYPE_MPA, " +
+                "GROUP_CONCAT(TYPE_ID) as TYPE_ID, " +
+                "GROUP_CONCAT(TYPE_GENRES.NAME) as TYPE_NAME " +
+                "from FILMS " +
+                "left join GENRES on GENRES.FILM_ID = FILMS.FILM_ID " +
+                "left join TYPE_GENRES on GENRES.TYPE_ID =  TYPE_GENRES.ID " +
+                "left join TYPE_MPA on FILMS.MPA_ID = TYPE_MPA.ID " +
+                "group by FILMS.FILM_ID";
         return jdbcTemplate.query(sql, new FilmMapper());
     }
 
     public Film getFilm(int idFilm) {
-        String sql = "select * from FILMS where FILM_ID = ?";
+        String sql = "select FILMS.FILM_ID as FILM_ID, " +
+                "FILMS.FILM_NAME as FILM_NAME, " +
+                "FILMS.DESCRIPTION as DESCRIPTION, " +
+                "FILMS.RELEASE_DATE as RELEASE_DATE, " +
+                "FILMS.DURATION as DURATION, " +
+                "FILMS.MPA_ID as MPA_ID, " +
+                "TYPE_MPA.NAME as TYPE_MPA, " +
+                "GROUP_CONCAT(TYPE_ID) as TYPE_ID, " +
+                "GROUP_CONCAT(TYPE_GENRES.NAME) as TYPE_NAME " +
+                "from FILMS " +
+                "left join GENRES on GENRES.FILM_ID = FILMS.FILM_ID " +
+                "left join TYPE_GENRES on GENRES.TYPE_ID =  TYPE_GENRES.ID " +
+                "left join TYPE_MPA on FILMS.MPA_ID = TYPE_MPA.ID " +
+                "group by FILMS.FILM_ID " +
+                "having FILMS.FILM_ID = ?";
         return jdbcTemplate.queryForStream(sql, new FilmMapper(), idFilm)
                 .findAny().orElse(null);
     }
@@ -75,8 +103,20 @@ public class FilmDbStorage implements FilmStorage {
     }
 
     public List<Film> getTopFilms(int count) {
-        String sql = "select * from FILMS " +
+        String sql = "select FILMS.FILM_ID as FILM_ID, " +
+                "FILMS.FILM_NAME as FILM_NAME, " +
+                "FILMS.DESCRIPTION as DESCRIPTION, " +
+                "FILMS.RELEASE_DATE as RELEASE_DATE, " +
+                "FILMS.DURATION as DURATION, " +
+                "FILMS.MPA_ID as MPA_ID, " +
+                "TYPE_MPA.NAME as TYPE_MPA, " +
+                "GROUP_CONCAT(TYPE_ID) as TYPE_ID, " +
+                "GROUP_CONCAT(TYPE_GENRES.NAME) as TYPE_NAME " +
+                "from FILMS " +
                 "left join LIKES on FILMS.FILM_ID = LIKES.FILM_ID " +
+                "left join GENRES on GENRES.FILM_ID = FILMS.FILM_ID " +
+                "left join TYPE_GENRES on GENRES.TYPE_ID =  TYPE_GENRES.ID " +
+                "left join TYPE_MPA on FILMS.MPA_ID = TYPE_MPA.ID " +
                 "group by FILMS.FILM_ID " +
                 "order by COUNT(LIKES.USER_ID) desc";
         return jdbcTemplate.query(sql, new FilmMapper());
