@@ -2,6 +2,7 @@ package ru.yandex.practicum.javafilmorate.model;
 
 import lombok.Data;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.validation.constraints.*;
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -19,8 +20,6 @@ public class User {
     private String name;
     @Past
     private final LocalDate birthday;
-
-    private Set<Integer> friend = new HashSet<>();
 
     public User(String email, String name, String login, LocalDate birthday) {
         this.email = email;

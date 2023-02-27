@@ -10,8 +10,14 @@ public interface UserStorage {
 
     User createUser(User user) throws ValidationException;
 
-    User changeUser(User user) throws Exception;
+    User updateUser(User user);
 
-    User getUser(int id) throws NotFoundException;
+    User getUser(int id);
+
+    void addFriend(int id, int idFriend);
+
+    void deleteFriend(int id, int idFriend);
+
+    List<User> getFriends(int id);
 
 }
